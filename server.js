@@ -1,6 +1,8 @@
 import cookieParser from "cookie-parser";
 import express from "express"
 import mongoose from "mongoose";
+import { mainRouter } from "./router/main.router.js";
+import { error } from "./middlewares/error.js";
 
 const app = express();
 
@@ -12,9 +14,8 @@ app.use(express.urlencoded({extended:true}))
 
 app.use(cookieParser())
 
-app.get("/",(req, res)=>{
-    res.json("backend works")
-})
+app.use(mainRouter)
+app.use(error)
 
 try {
     await mongoose.connect(process.env.MONGODB_URL)
