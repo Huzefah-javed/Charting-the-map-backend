@@ -18,7 +18,7 @@ export const getBooksModel = async (filterQuery, pageNo) => {
   pageNo = (Number(pageNo)-1)*20
 
   try {
-    const data = await Books.find(query, {review_html:0, review_date:0}).limit(20).skip(pageNo);
+    const data = await Books.find(query, {review_html:0, review_date:0, }).limit(20).skip(pageNo);
     result = { success: true, status: 200, msg: "succuss", data };
   } catch (error) {
     result = { success: false, status: 500, msg: "failed to Get data" };
