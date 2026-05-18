@@ -5,11 +5,13 @@ import { userRouter } from "./user.router.js";
 import { loginController } from "../Controllers/main/loginController.js";
 import { logoutController } from "../Controllers/main/logoutController.js";
 import { roleChecker } from "../middlewares/roleChecker.js";
+import { CountryTotalRev } from "../Controllers/main/countryTotalRevController.js";
 
 export const mainRouter = Router()
 
 
 mainRouter.get("/books", bookController)
+mainRouter.get("/reviewPerCountry", CountryTotalRev)
 mainRouter.post("/login", loginController)
 mainRouter.post("/logout", logoutController)
 
