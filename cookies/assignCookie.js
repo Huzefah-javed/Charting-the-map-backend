@@ -14,6 +14,6 @@ export  function assignJWTCookie(data, res){
          secure: true,      
          sameSite: "none", 
          path: "/",
-        maxAge: 2 * 60 * 60 * 1000  
+        maxAge: 3 * 60 * 60 * 1000  
     })
 }

@@ -8,6 +8,7 @@ export const getBooksModel = async (filterQuery, pageNo) => {
     publish_year: { $gte: publishEra[0], $lte: publishEra[1] },
     rating: { $gte: minRating },
     category: { $in: category },
+    status:"publish"
   };
   if (tags.length > 0) query.tags = { $in: tags };
   if (languages.length > 0) query.languages = { $in: languages };

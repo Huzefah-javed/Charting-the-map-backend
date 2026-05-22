@@ -9,6 +9,7 @@ const userFavoriteSchema = new mongoose.Schema(
     bookId: {
       type: mongoose.Schema.Types.ObjectId,
       required: [true, 'Book ID is required'],
+      ref:"Books_Review",
     },
   },
   {

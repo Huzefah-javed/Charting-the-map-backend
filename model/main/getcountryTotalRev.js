@@ -5,6 +5,7 @@ export const GetCountryTotalReview=async()=>{
     try {
 
           const data =  await Books.aggregate([
+                {$match:{status:"publish"}},
                 { $unwind: "$countries" },
                 {$group:{
                     _id:"$countries",
