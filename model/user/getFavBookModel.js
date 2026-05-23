@@ -21,6 +21,7 @@ export const getFavBookModel = async (userId, pageNo) => {
       { $unwind: "$book_data" },
       {
         $facet: {
+          totalFavBookCount:[{$group:{_id:null, total:{$sum:1}}}],
           paginationData: [{ $skip: pageNo }, { $limit: 20 }],
           metaData:[{
               $group: {
@@ -46,6 +47,7 @@ export const getFavBookModel = async (userId, pageNo) => {
         "paginationData.book_data.tags":0,
         "paginationData.book_data.countries":0,
         "paginationData.book_data.book_url":0,
+        "totalFavBookCount._id":0
       }}
     ]);
     result = { success: true, status: 200, data:data[0] };
