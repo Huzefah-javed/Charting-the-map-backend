@@ -11,6 +11,7 @@ export const adminCategoryModel = async () => {
               $group: {
                 _id: "$genre",
                 totalReviews: { $sum: 1 },
+                avgRating:{$avg: '$rating'}
               },
             },
           ],
