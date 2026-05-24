@@ -3,6 +3,7 @@ import { adminDashboardDetail } from "../Controllers/admin/adminDashboardDetail.
 import { adminCategoryDetail } from "../Controllers/admin/adminCategoryDetail.js";
 import { adminTagsDetail } from "../Controllers/admin/adminTagsDetails.js";
 import { AdminBooksDetail } from "../Controllers/admin/adminBooksDetail.js";
+import { AdminAddBookDetail } from "../Controllers/admin/adminAddBookDetail.js";
 
 export const adminRouter = Router()
 
@@ -11,3 +12,4 @@ adminRouter.get("/DashboardDetails", adminDashboardDetail)
 adminRouter.get("/CategoryDetails", adminCategoryDetail)
 adminRouter.get("/TagsDetails", adminTagsDetail)
 adminRouter.get("/Books", AdminBooksDetail)
+adminRouter.post("/AddBook", AdminAddBookDetail)
