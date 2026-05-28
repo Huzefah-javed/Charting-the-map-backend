@@ -16,5 +16,5 @@ mainRouter.get("/reviewPerCountry", CountryTotalRev)
 mainRouter.post("/userLogin", loginController)
 mainRouter.post("/logout", logoutController)
 
-mainRouter.use("/user", jwtVerification, roleChecker("user"),userRouter)
+mainRouter.use("/user", jwtVerification ,userRouter)
 mainRouter.use("/admin",jwtVerification, roleChecker("admin"), adminRouter)
