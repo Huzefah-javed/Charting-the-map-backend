@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import { UserFavorite } from "./UserFavBook.schema.js";
 
 const bookSchema = new mongoose.Schema(
   {
@@ -70,6 +71,7 @@ const bookSchema = new mongoose.Schema(
   },
 );
 
+
 bookSchema.index({ tags: 1 });
 bookSchema.index({ countries: 1 });
 bookSchema.index({ languages: 1 });
@@ -78,5 +80,11 @@ bookSchema.index({ category: 1 });
 bookSchema.index({ rating: -1 });
 bookSchema.index({ publish_year: 1 });
 bookSchema.index({ title: "text" });
+
+bookSchema.post("findOneAndDelete", async function (doc) {
+  if (doc) {
+    await UserFavorite.deleteMany({ bookId: doc._id });
+  }
+});
 
 export const Books = mongoose.model("Books_Review", bookSchema);

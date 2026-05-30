@@ -5,6 +5,7 @@ import { adminTagsDetail } from "../Controllers/admin/adminTagsDetails.js";
 import { AdminBooksDetail } from "../Controllers/admin/adminBooksDetail.js";
 import { AdminAddBookDetail } from "../Controllers/admin/adminAddBookDetail.js";
 import { AdminEditBookDetail } from "../Controllers/admin/adminEditBookDetail.js";
+import { AdminDeleteBookDetail } from "../Controllers/admin/adminDeleteBookDetail.js";
 
 export const adminRouter = Router()
 
@@ -15,3 +16,4 @@ adminRouter.get("/TagsDetails", adminTagsDetail)
 adminRouter.get("/Books", AdminBooksDetail)
 adminRouter.post("/AddBook", AdminAddBookDetail)
 adminRouter.put("/EditBook/:id", AdminEditBookDetail)
+adminRouter.delete("/DeleteBook/:id", AdminDeleteBookDetail)
