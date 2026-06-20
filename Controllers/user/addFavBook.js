@@ -1,12 +1,8 @@
 import { addFavBookModel } from "../../model/user/addFavBookModel.js";
+import { asyncWrapper } from "../../utils/asyncWrapper.js";
 
-export const addFavoriteBookController = async (req, res, next) => {
+export const addFavoriteBookController = asyncWrapper(async (req, res, next) => {
   const { bookId } = req.body;
-
-  const response = await addFavBookModel(bookId, req.user._id);
-
-  if (!response.success)
-    return next({ status: response.status, msg: response.msg });
-
-  return res.json(response).status(response.status);
-};
+   await addFavBookModel(bookId, req.user._id)
+  return res.status(201).json({success:true, message:"Book added successfully"});
+});
