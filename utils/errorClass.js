@@ -3,5 +3,6 @@ export class AppError extends Error {
     super(error)
     this.statusCode = statusCode
     this.isOperational = true;
+    Error.captureStackTrace(this, this.constructor)
   }
 }
