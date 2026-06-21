@@ -1,20 +1,17 @@
-import { Books } from "../../schema/Books.schema.js"
+import { Books } from "../../schema/Books.schema.js";
+import { AppError } from "../../utils/errorClass.js";
 
-export const GetCountryTotalReview=async()=>{
-    let result;
-    try {
-
-          const data =  await Books.aggregate([
-                {$match:{status:"publish"}},
-                { $unwind: "$countries" },
-                {$group:{
-                    _id:"$countries",
-                    totalReviews: { $sum: 1 }
-                }}
-            ])
-            result = { success: true, status: 200, msg: "succuss", data };
-        } catch (error) {
-            result = { success: false, status: 500, msg: "Failed to get data" };     
-    }
-    return result
-}
+export const GetCountryTotalReview = async () => {
+  const data = await Books.aggregate([
+    { $match: { status: "publish" } },
+    { $unwind: "$countries" },
+    {
+      $group: {
+        _id: "$countries",
+        totalReviews: { $sum: 1 },
+      },
+    },
+  ]);
+  if (data.length === 0) new AppError("No data found", 401);
+  return data;
+};

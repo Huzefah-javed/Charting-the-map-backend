@@ -1,17 +1,15 @@
 
 import { GetCountryTotalReview } from "../../model/main/getcountryTotalRev.js"
+import { asyncWrapper } from "../../utils/asyncWrapper.js"
 
-export const CountryTotalRev=async(req, res, next)=>{
+export const CountryTotalRev=asyncWrapper(async(req, res, next)=>{
 
-   const response = await GetCountryTotalReview()
-    if(!response.success) return next({status: response.status, msg:response.msg})
-      const countryData={}
-       response.data.forEach((data)=>{
+   let response = await GetCountryTotalReview()
+      let countryData={}
+       response.forEach((data)=>{
           countryData[data._id] = data.totalReviews
        })
 
-       response.data = countryData
-  
-  return res.json(response).status(response.status)
-
-}
+       response = countryData
+   return res.status(200).json({ success: true, data: response });
+})

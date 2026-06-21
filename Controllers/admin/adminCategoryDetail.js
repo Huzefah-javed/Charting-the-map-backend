@@ -1,10 +1,7 @@
 import { adminCategoryModel } from "../../model/admin/AdminCategoryModel.js";
+import { asyncWrapper } from "../../utils/asyncWrapper.js";
 
-export const adminCategoryDetail=async(req, res, next)=>{
-
-    const response = await adminCategoryModel()
-    if (!response.success)
-    return next({ status: response.status, msg: response.msg });
-
-  return res.json(response).status(response.status);
-}
+export const adminCategoryDetail = asyncWrapper(async (req, res, next) => {
+  const response = await adminCategoryModel();
+  return res.status(200).json({ success: true, data: response });
+});

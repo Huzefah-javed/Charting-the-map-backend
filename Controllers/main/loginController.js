@@ -1,10 +1,10 @@
 import { assignJWTCookie } from "../../cookies/assignCookie.js"
 import { login } from "../../model/main/login.model.js"
+import { asyncWrapper } from "../../utils/asyncWrapper.js"
 
-export const loginController=async(req, res, next)=>{
+export const loginController=asyncWrapper(async(req, res, next)=>{
     const {email,password, role} = req.body
     const response = await login(email, password, role)
-    if (!response.success) return next({status:response.status, msg:response.msg})
-    assignJWTCookie(response.data, res)
-   return res.status(response.status).json({msg:response.msg, data:response.data})
-}
+    assignJWTCookie(response, res)
+   return res.status(200).json({msg:"Login successful", data:response})
+})

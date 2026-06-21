@@ -1,8 +1,8 @@
 import { adminAddBookModel } from "../../model/admin/AdminAddBookModel.js";
-
-export const AdminAddBookDetail = async (req, res, next) => {
-  let {
-    author,
+import { asyncWrapper } from "../../utils/asyncWrapper.js";
+import { AppError } from "../../utils/errorClass.js";
+export const AdminAddBookDetail = asyncWrapper(async (req, res, next)=>{   
+   let {author,
     bookImg,
     excerpt,
     content,
@@ -17,99 +17,50 @@ export const AdminAddBookDetail = async (req, res, next) => {
     type,
   } = req.body;
   
-  if (!title || typeof title !== "string" || title.trim() === "") {
-    return next({
-      status: 400,
-      msg: "Book title is required and must be a valid text string.",
-    });
-  }
-  if (!excerpt || typeof excerpt !== "string" || excerpt.trim() === "") {
-    return next({
-      status: 400,
-      msg: "Book excerpt is required and must be a valid text string.",
-    });
-  }
-
-  if (!author && typeof author !== "string") {
-    return next({ status: 400, msg: "Author name must be a text string." });
-  }
+  if (!title || typeof title !== "string" || title.trim() === "") return new AppError( "Book title is required and must be a valid text string.",400)
+  if (!excerpt || typeof excerpt !== "string" || excerpt.trim() === "") return new AppError(  "Book excerpt is required and must be a valid text string.",400);
   
+
+  if (!author && typeof author !== "string") return new AppError("Author name must be a text string.",400) 
   const currentYear = new Date().getFullYear();
 
   if (!publish_year || typeof publish_year !== "string") {
-    return next({
-      status: 400,
-      msg: "Publication year must be a valid numeric string.",
-    });
+    return new AppError(  "Publication year must be a valid numeric string.",400);
   }
 
   if (parseInt(publish_year, 10) > currentYear) {
-    return next({
-      status: 400,
-      msg: `Publication year cannot be in the future (max: ${currentYear}).`,
-    });
+    return new AppError(  `Publication year cannot be in the future (max: ${currentYear}).`,400);
   }
 
   const validStatuses = ["publish", "draft"];
   if (!status || !validStatuses.includes(status)) {
-    return next({
-      status: 400,
-      msg: 'Status must be explicitly set to either "Publish" or "Draft".',
-    });
+    return new AppError(  'Status must be explicitly set to either "Publish" or "Draft".',400);
   }
   
   if (!genre || typeof publish_year !== "string") {
-    return next({
-      status: 400,
-      msg: "Genre field must be provided as a string",
-    });
+    return new AppError(  "Genre field must be provided as a string",400);
   }
   
   if (!language || !Array.isArray(language)) {
-    return next({
-      status: 400,
-      msg: "Language field is required as as array.",
-    });
+    return new AppError(  "Language field is required as as array.",400);
   }
   if (!countries || !Array.isArray(countries)) {
-    return next({
-      status: 400,
-      msg: "countries field is required as as array.",
-    });
+    return new AppError(  "countries field is required as as array.",400);
   }
 
-  if (!tags || !Array.isArray(tags)) {
-    return next({ status: 400, msg: "tags field is required as as array." });
-  }
+  if (!tags || !Array.isArray(tags))return new AppError("tags field is required", 400)
 
-  if (typeof rating !== "number" && rating > 1 && rating < 5) {
-    return next({
-      status: 400,
-      msg: "Rating must be a numeric score between 1 and 5 stars.",
-    });
-  }
+  if (typeof rating !== "number" && rating > 1 && rating < 5) return new AppError(  "Rating must be a numeric score between 1 and 5 stars.",400);
   
   const validTypes = ["Non-Fiction", "Fiction"];
-  if (!type || !validTypes.includes(type)) {
-    return next({
-      status: 400,
-      msg: 'Type must be selected as either "Fiction" or "Non-fiction".',
-    });
-  }
+  if (!type || !validTypes.includes(type)) return new AppError('Type must be selected as either "Fiction" or "Non-fiction".',400);
   
-  if (!bookImg && typeof bookImg !== "string" && bookImg.trim() === "") {
-    return next({
-      status: 400,
-      msg: "Book cover image reference path must be a string value.",
-    });
-  }
   
-  if (!content && typeof content !== "string" && content.trim() === "") {
-    return next({
-      status: 400,
-      msg: "Content text layout payload data type error.",
-    });
-  }
+  if (!bookImg && typeof bookImg !== "string" && bookImg.trim() === "") return new AppError(  "Book cover image reference path must be a string value.",400);
+  
+  
+  if (!content && typeof content !== "string" && content.trim() === "") return new AppError(  "Content text layout payload data type error.",400);
+  
   language = language.map((lang) => {
     return lang.charAt(0).toUpperCase() + lang.slice(1);
   });
@@ -133,8 +84,5 @@ export const AdminAddBookDetail = async (req, res, next) => {
     category: type,
   });
 
-  if (!response.success)
-    return next({ status: response.status, msg: response.msg });
-
-  return res.status(response.status).json(response);
-};
+  return res.status(201).json({message:"Added book successfully"});
+});

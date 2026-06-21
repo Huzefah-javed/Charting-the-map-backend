@@ -1,12 +1,11 @@
 import mongoose from "mongoose";
 import { UserFavorite } from "../../schema/UserFavBook.schema.js";
+import { AppError } from "../../utils/errorClass.js";
 
 export const getFavBookModel = async (userId, pageNo) => {
-  let result;
 
   pageNo = (pageNo - 1) * 20;
 
-  try {
     const userObjId = new mongoose.Types.ObjectId(userId);
     const data = await UserFavorite.aggregate([
       { $match: { userId: userObjId } },
@@ -50,14 +49,7 @@ export const getFavBookModel = async (userId, pageNo) => {
         "totalFavBookCount._id":0
       }}
     ]);
-    result = { success: true, status: 200, data:data[0] };
-  } catch (error) {
-    console.log(error);
-    result = {
-      success: false,
-      status: 500,
-      msg: "something went wrong while getting reading list data",
-    };
-  }
-  return result;
+    
+    if(data.length === 0) new AppError("No more data found")
+  return data[0];
 };

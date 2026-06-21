@@ -1,9 +1,8 @@
 import { deleteFavBookModel } from "../../model/user/deleteFavBookModel.js";
+import { asyncWrapper } from "../../utils/asyncWrapper.js";
 
-export const deleteFavBook = async (req, res, next) => {
+export const deleteFavBook =asyncWrapper(async (req, res, next) => {
   const { docId } = req.params
-  const response = await deleteFavBookModel(docId);
-  if (!response.success) return next({ status: response.status, msg: response.msg });
-
-  return res.json(response).status(response.status);
-};
+  await deleteFavBookModel(docId);
+   return res.status(200).json({ success: true, message:"Book deleted successfully"});
+});
