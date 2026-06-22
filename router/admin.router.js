@@ -6,6 +6,8 @@ import { AdminBooksDetail } from "../Controllers/admin/adminBooksDetail.js";
 import { AdminAddBookDetail } from "../Controllers/admin/adminAddBookDetail.js";
 import { AdminEditBookDetail } from "../Controllers/admin/adminEditBookDetail.js";
 import { AdminDeleteBookDetail } from "../Controllers/admin/adminDeleteBookDetail.js";
+import { validationCheck } from "../middlewares/validationCheck.js";
+import { AddBookValidation } from "../validations/auth.addBook.js";
 
 export const adminRouter = Router()
 
@@ -14,6 +16,6 @@ adminRouter.get("/DashboardDetails", adminDashboardDetail)
 adminRouter.get("/CategoryDetails", adminCategoryDetail)
 adminRouter.get("/TagsDetails", adminTagsDetail)
 adminRouter.get("/Books", AdminBooksDetail)
-adminRouter.post("/AddBook", AdminAddBookDetail)
+adminRouter.post("/AddBook", validationCheck(AddBookValidation), AdminAddBookDetail)
 adminRouter.put("/EditBook/:id", AdminEditBookDetail)
 adminRouter.delete("/DeleteBook/:id", AdminDeleteBookDetail)

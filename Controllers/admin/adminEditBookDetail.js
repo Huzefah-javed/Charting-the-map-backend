@@ -4,13 +4,16 @@ import { asyncWrapper } from "../../utils/asyncWrapper.js";
 import { AppError } from "../../utils/errorClass.js";
 
 export const AdminEditBookDetail = asyncWrapper(async (req, res, next) => {
+
   let updateDoc= req.body;
   const {id} = req.params
+
   if (updateDoc.title && (typeof updateDoc.title !== "string" || updateDoc.title.trim() === "")) return  new AppError("Book title is required and must be a valid text string.", 400);
 if (updateDoc.excerpt && updateDoc.excerpt.trim() === "") return new AppError("Book excerpt is required and must be a valid text string.", 400)
-if (updateDoc.author && typeof updateDoc.author !== "string") return AppError("Author name must be a text string.",400);
+if (updateDoc.author && typeof updateDoc.author !== "string") return new AppError("Author name must be a text string.",400);
   
   const currentYear = new Date().getFullYear();
+  
   if (updateDoc.publish_year && typeof updateDoc.publish_year !== "string") return  new AppError("Publication year must be a valid numeric string.", 400)
     if (parseInt(updateDoc.publish_year, 10) > currentYear) return new AppError(`Publication year cannot be in the future (max: ${currentYear}).`, 400)
 
