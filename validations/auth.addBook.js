@@ -1,7 +1,7 @@
 import z from "zod";
 
 export const AddBookValidation = z.object({
-  author: z.string(),
+  author: z.string().trim().min(1),
   bookImg: z
     .string()
     .url()
@@ -17,12 +17,12 @@ export const AddBookValidation = z.object({
           "Invalid url ,make sure image has following format 'jpg', 'jpeg', 'png', 'webp', 'svg'",
       },
     ),
-  excerpt: z.string().trim(),
-  content: z.string().trim(),
-  genre: z.string().trim().toLowerCase(),
+  excerpt: z.string().trim().min(1),
+  content: z.string().trim().min(1),
+  genre: z.string().trim().toLowerCase().min(1),
   language: z.array(z.enum(["French", "English"])),
-  countries: z.array(z.string()),
-  tags: z.array(z.string()),
+  countries: z.array(z.string().min(1)).min(1),
+  tags: z.array(z.string().min(1)).min(1),
   publish_year: z.string().refine(
     (year) => {
       return Number(year) > 1500 && Number(year) <= new Date().getFullYear();
@@ -32,5 +32,5 @@ export const AddBookValidation = z.object({
   rating:z.number().min(0).max(5),
   status:z.enum(["publish", "draft"]),
   type:z.enum(["Non-Fiction", "Fiction"]),
-  title:z.string().trim()
+  title:z.string().trim().min(1)
 });

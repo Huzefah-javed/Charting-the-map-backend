@@ -7,13 +7,15 @@ import { logoutController } from "../Controllers/main/logoutController.js";
 import { roleChecker } from "../middlewares/roleChecker.js";
 import { CountryTotalRev } from "../Controllers/main/countryTotalRevController.js";
 import { adminRouter } from "./admin.router.js";
+import { validationCheck } from "../middlewares/validationCheck.js";
+import { loginValidation } from "../validations/auth.login.js";
 
 export const mainRouter = Router()
 
 
 mainRouter.get("/books", bookController)
 mainRouter.get("/reviewPerCountry", CountryTotalRev)
-mainRouter.post("/userLogin", loginController)
+mainRouter.post("/userLogin", validationCheck(loginValidation), loginController)
 mainRouter.post("/logout", logoutController)
 
 mainRouter.use("/user", jwtVerification ,userRouter)
