@@ -29,8 +29,8 @@ export const AddBookValidation = z.object({
     },
     { message: "Year must be between 1501 and the current year" },
   ),
-  rating:z.number().min(0).max(5),
-  status:z.enum(["publish", "draft"]),
-  type:z.enum(["Non-Fiction", "Fiction"]),
-  title:z.string().trim().min(1)
+  rating: z.number().min(0).max(5),
+  status: z.enum(["publish", "draft"]),
+  type: z.enum(["Non-Fiction", "Fiction"]),
+  title: z.string().trim().min(1),
 });
